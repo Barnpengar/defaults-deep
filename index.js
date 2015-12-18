@@ -7,20 +7,19 @@
 
 'use strict';
 
-var lazy = require('lazy-cache')(require);
-lazy('is-extendable', 'isObject');
-lazy('for-own', 'forOwn');
+var isObject = require('is-extendable');
+var forOwn = require('for-own');
 
 function defaultsDeep(target, objects) {
   target = target || {};
 
   function copy(target, current) {
-    lazy.forOwn(current, function (value, key) {
+    forOwn(current, function (value, key) {
       var val = target[key];
       // add the missing property, or allow a null property to be updated
       if (val == null) {
         target[key] = value;
-      } else if (lazy.isObject(val) && lazy.isObject(value)) {
+      } else if (isObject(val) && isObject(value)) {
         defaultsDeep(val, value);
       }
     });
